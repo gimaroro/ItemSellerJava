@@ -25,7 +25,7 @@ public class WebApplication {
 			Role role = new Role("ROLE_ADMIN");
 			Role role2 = new Role("ROLE_USER");
 			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-			User user = new User("admin", "Giairo", "Mauro", "admin", role);
+			User user = new User("admin", "Admin", "Istrator", "admin", role);
 			Category category = new Category("important");
 			if(roleRepository.count() == 0) {
 				roleRepository.saveAndFlush(role);
