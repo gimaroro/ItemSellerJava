@@ -1,0 +1,103 @@
+<!DOCTYPE HTML>
+<html lang="it" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:include="fragments/master::common_head(~{::meta}, ~{::link})">
+    <meta name="description" content="Items website">
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/headers/">
+</head>
+<body>
+<header th:replace="fragments/master::common_header(~{::li})">
+    <li th:each="item: ${items}"><a th:href="@{'/item/'+ ${item.id}}" th:text="${item.title}" class="nav-link px-2 text-warning">Detail</a></li>
+</header>
+
+<div th:replace="fragments/modals::login_modal"></div>
+<div th:replace="fragments/modals::register_modal"></div>
+
+<div class="container">
+    <main th:if="${!favorites.empty}" class="articles">
+        <section class="text-center container">
+            <div class="row py-lg-5">
+                <div class="col-lg-6 col-md-8 mx-auto">
+                    <h1 class="fw-light">Favourites</h1>
+                    <p class="lead text-muted">Favourite items</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="album py-5 bg-light">
+            <div class="container">
+                <!-- Parte non ottimizzata con i fragment poiché non sono riuscito a passare l'item come argomento -->
+                <div id="OffArticles" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                    <h2>Offer</h2>
+                    <article class="col" th:each="item: ${favorites}"
+                             th:if="${item.ad == T(gimaroro.webapp.web.model.Ad).Offer}">
+                        <div class="card shadow-sm">
+                            <img th:src="@{'item/' + ${item.id} + '/image'}" th:alt="${item.title}">
+
+                            <div class="card-body">
+                                <h2><a th:text="${item.title}" th:href="@{'/item/'+ ${item.id}}">Item</a></h2>
+                                <p class="card-text" th:text="${item.description}">Description</p>
+                                <p class="card-text">Date: <time th:datetime="${#dates.format(item.date, 'dd-MM-yyyy')}"
+                                                                 th:text="${#dates.format(item.date, 'dd-MM-yyyy')}">Date</time></p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <a role="button" class="btn btn-sm btn-outline-primary"
+                                           th:href="@{'/item/'+ ${item.id}}">Info</a>
+                                        <a role="button" class="btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()"
+                                           th:href="@{'/item/'+ ${item.id} +'/edit'}">Edit</a>
+                                        <a role="button" class="btn btn-sm btn-outline-secondary" sec:authorize="hasRole('ADMIN')"
+                                           th:href="@{'/item/'+ ${item.id} +'/delete'}">Delete</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </div><br>
+                <div id="ReqArticles" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                    <h2>Request</h2>
+                    <article class="col" th:each="item, i: ${favorites}"
+                             th:if="${item.ad == T(gimaroro.webapp.web.model.Ad).Request}">
+                        <div class="card shadow-sm">
+                            <img th:src="@{'item/' + ${item.id} + '/image'}" th:alt="${item.title}">
+
+                            <div class="card-body">
+                                <h2><a th:text="${item.title}" th:href="@{'/item/'+ ${item.id}}">Item</a></h2>
+                                <p class="card-text" th:text="${item.description}">Description</p>
+                                <p class="card-text">Date: <time th:datetime="${#dates.format(item.date, 'dd-MM-yyyy')}"
+                                                                 th:text="${#dates.format(item.date, 'dd-MM-yyyy')}">Date</time></p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <a role="button" class="btn btn-sm btn-outline-primary"
+                                           th:href="@{'/item/'+ ${item.id}}">Info</a>
+                                        <a role="button" class="btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()"
+                                           th:href="@{'/item/'+ ${item.id} +'/edit'}">Edit</a>
+                                        <a role="button" class="btn btn-sm btn-outline-secondary" sec:authorize="hasRole('ADMIN')"
+                                           th:href="@{'/item/'+ ${item.id} +'/delete'}">Delete</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+        <aside></aside>
+    </main>
+
+    <main th:unless="${!favorites.empty}" class="articles">
+        <section class="text-center container">
+            <div class="row py-lg-5">
+                <div class="col-lg-6 col-md-8 mx-auto">
+                    <h1 class="fw-light">Favourites</h1>
+                    <p class="lead text-muted">No favourite items</p>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+<footer th:replace="fragments/master::common_footer">
+    <small>Copyleft CC-by 2019 by Giairo Mauro</small>
+</footer>
+
+<div th:replace="fragments/scripts"></div>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+    <!-- Modals -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLiveLabel" aria-hidden="true" th:fragment="login_modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content rounded-5 shadow">
+                <div class="modal-header p-5 pb-4 border-bottom-0">
+                    <h5 class="modal-title fw-bold mb-0" id="loginModalLiveLabel">Website Log in</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body p-5 pt-0">
+                    <form class="" method="post" th:action="@{/login}">
+                        <div class="form-floating mb-3">
+                            <input type="text" name="username" class="form-control rounded-4" id="floatingUserLogInput" placeholder="Nome utente"
+                                   aria-label="nome utente">
+                            <label for="floatingUserLogInput">Username</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="password" name="password" class="form-control rounded-4" id="floatingLogPassword" placeholder="Password"
+                                   aria-label="password">
+                            <label for="floatingLogPassword">Password</label>
+                        </div>
+                        <button class="w-100 mb-2 btn btn-lg rounded-4 btn-primary" type="submit">Log in</button>
+                        <button type="button" class="btn btn-link"
+                                data-bs-toggle="modal" data-bs-target="#registerModal">Don't have an account yet? Sign up!</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLiveLabel" aria-hidden="true" th:fragment="register_modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content rounded-5 shadow">
+                <div class="modal-header p-5 pb-4 border-bottom-0">
+                    <h5 class="modal-title fw-bold mb-0" id="registerModalLiveLabel">Register</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body p-5 pt-0">
+                    <form class="needs-validation" id="registerForm" method="post" th:object="${user}" th:action="@{/register}" novalidate>
+                        <div class="form-floating mb-3">
+                            <input type="text" name="name" class="register-form form-control rounded-4" id="floatingNameInput" placeholder="Nome"
+                                   onkeyup="checkName()" th:field="*{name}" aria-label="Nome" required>
+                            <label for="floatingNameInput">Name</label>
+                            <div role="alert" class="invalid-feedback" id="invalid-name-feedback">
+                                Insert a valid name.
+                            </div>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" name="surname" class="register-form form-control rounded-4" id="floatingSurnameInput" placeholder="Cognome"
+                                   onkeyup="checkSurname()" th:field="*{surname}" aria-label="Cognome" required>
+                            <label for="floatingSurnameInput">Surname</label>
+                            <div role="alert" class="invalid-feedback" id="invalid-surn-feedback">
+                                Insert a valid surname.
+                            </div>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" name="username" class="register-form form-control rounded-4" id="floatingUserRegInput" placeholder="Nome utente"
+                                   onkeyup="checkUsername()" th:field="*{username}" aria-label="Nome utente" required>
+                            <label for="floatingUserRegInput">Username</label>
+                            <div role="alert" class="invalid-feedback" id="invalid-user-feedback">
+                                Insert a valid username (at least 8  characters).
+                            </div>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="password" name="password" class="register-form form-control rounded-4" id="floatingRegPassword" placeholder="Password"
+                                   onkeyup="checkPass()" th:field="*{password}" aria-label="Password" required>
+                            <label for="floatingRegPassword">Password</label>
+                            <div role="alert" class="invalid-feedback" id="invalid-pass-feedback">
+                                Insert a valid password.
+                            </div>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="password" name="confirm password" class="register-form form-control rounded-4" id="floatingConfRegPassword" placeholder="Conferma password"
+                                   onkeyup="checkPassConf()" aria-label="conferma password" required>
+                            <label for="floatingConfRegPassword">Repeat password</label>
+                            <div role="alert" class="invalid-feedback" id="invalid-conf-feedback">
+                                Passwords do not match.
+                            </div>
+                        </div>
+                        <!--<button class="w-100 mb-2 btn btn-lg rounded-4 btn-primary" type="submit">Registrati</button>-->
+                        <button type="button" class="btn btn-link"
+                                data-bs-toggle="modal" data-bs-target="#loginModal">Do you already have an account? Log in!</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

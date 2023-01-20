@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head th:include="fragments/master :: common_head(~{::meta}, _)">
+        <meta name="description" content="Descrizione Automobile">
+    </head>
+    <body>
+        <header th:replace="fragments/master :: common_header(_)">
+        </header>
+
+        <div th:replace="fragments/modals :: login_modal"></div>
+        <div th:replace="fragments/modals :: register_modal"></div>
+
+        <main>
+            <article class="container">
+                <div class="album py-5 bg-light">
+                    <div class="container">
+
+                        <div class="row">
+                            <div class="col-9">
+                                <div class="card shadow-sm">
+                                    <img class="bd-placeholder-img card-img-top" role="img"
+                                         th:src="${image} == null ? _ : @{'data:image/png;base64,'+${image}}"
+                                         th:alt="${item.title}">
+                                    <h1 th:text="${item.title}" class="ms-3"></h1>
+
+                                    <div class="card-body">
+                                            <h2 class="mt-5 mb-3">Data</h2>
+
+                                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                                <li class="nav-item" role="presentation">
+                                                    <button class="nav-link active" id="desc-tab" data-bs-toggle="tab" data-bs-target="#descTab" type="button" role="tab"
+                                                            aria-controls="descTab" aria-selected="true" aria-label="description">Description</button>
+                                                </li>
+                                                <li class="nav-item" role="presentation">
+                                                    <button class="nav-link" id="author-tab" data-bs-toggle="tab" data-bs-target="#authorTab" type="button" role="tab"
+                                                            aria-controls="authorTab" aria-selected="false" aria-label="author">Author</button>
+                                                </li>
+                                                <li class="nav-item" role="presentation">
+                                                    <button class="nav-link" id="info-tab" data-bs-toggle="tab" data-bs-target="#infoTab" type="button" role="tab"
+                                                            aria-controls="infoTab" aria-selected="false" aria-label="info">Info</button>
+                                                </li>
+                                            </ul>
+                                            <div class="tab-content">
+                                                <div class="tab-pane p-2 p-md-5 fade active show" id="descTab" role="tabpanel" aria-labelledby="desc-tab">
+                                                    <p class="card-text" th:text="${item.description}"></p>
+                                                </div>
+                                                <div class="tab-pane p-2 p-md-5 fade" id="authorTab" role="tabpanel" aria-labelledby="author-tab">
+                                                    <div class="mb-3 row col-12 col-md-6">
+                                                        <h3 for="author" class="form-label fw-bold">Username</h3>
+                                                        <p id="author" class="card-text" th:datetime="${item.author.username}"
+                                                           th:text="${item.author.username}">username</p>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane p-2 p-md-5 fade" id="infoTab" role="tabpanel" aria-labelledby="info-tab">
+                                                    <div class="mb-3 row">
+                                                        <div class="col-12 col-md-6 my-3">
+                                                            <h3 for="ad" class="form-label fw-bold">Ad</h3>
+                                                            <p id="ad" class="card-text" th:datetime="${item.author.username}"
+                                                               th:text="${item.ad}">username</p>
+                                                        </div>
+                                                        <div class="col-12 col-md-6 my-3">
+                                                            <h3 for="category" class="form-label fw-bold">Category</h3>
+                                                            <p id="category" class="card-text" th:datetime="${item.author.username}"
+                                                               th:text="${item.category.name}">category</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <aside class="col-3">
+                                <div class="card shadow-sm">
+                                    <div class="card-body">
+                                        <h1 class="mt-2 mb-3">Actions</h1>
+                                        <div class="card-body">
+                                            <!-- check if favorite or not -->
+                                            <a role="button" class="btn btn-outline-secondary" sec:authorize="isAuthenticated()" id="favorite"
+                                               th:href="@{'/item/'+ ${item.id} +'/addToFav'}" th:if="${!#arrays.contains(favorites, item)}" aria-label="Add to favourites">Add to Favourites</a>
+                                            <a role="button" class="btn btn-outline-danger" sec:authorize="isAuthenticated()"
+                                               th:href="@{'/item/'+ ${item.id} +'/removeFromFav'}" th:if="${#arrays.contains(favorites, item)}" aria-label="add to favourites">Favourite</a>
+
+                                            <a role="button" class="btn btn-secondary" sec:authorize="isAuthenticated()"
+                                               th:href="@{'/item/'+ ${item.id} +'/edit'}" aria-label="edit">Edit</a>
+                                            <a role="button" class="btn btn-danger" sec:authorize="hasRole('ADMIN')"
+                                               th:href="@{'/item/'+ ${item.id} +'/delete'}" aria-label="delete">Delete</a>
+                                            <p role="button" sec:authorize="!hasRole('ADMIN') && !isAuthenticated()">
+                                                Log in to interact with this item</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </aside>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </main>
+        <footer th:replace="fragments/master :: common_footer">
+            <small>Copyleft CC-by 2019 by Giairo Mauro</small>
+        </footer>
+
+        <div th:replace="fragments/scripts"></div>
+    </body>
+</html>

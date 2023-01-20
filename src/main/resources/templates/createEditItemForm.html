@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html lang="it">
+    <head th:include="fragments/master :: common_head(~{::meta}, ~{::link})">
+        <meta name="description" content="Create items">
+        <link th:href="@{/css/form-validation.css}" rel="stylesheet">
+    </head>
+    <body>
+        <header th:replace="fragments/master :: common_header(~{::li})">
+            <li th:each="item: ${items}"><a th:href="@{'/item/'+ ${item.id}}" th:text="${item.title}" class="nav-link px-2 text-warning">Detail</a></li>
+        </header>
+
+        <div th:replace="fragments/modals :: login_modal"></div>
+        <div th:replace="fragments/modals :: register_modal"></div>
+
+        <div class="container">
+            <main class="my-5 py-5">
+                <div class="col-md-7 col-lg-8 ms-3">
+                    <h1 class="mb-3">New Item</h1>
+                    <span>all fields with "*" are mandatory</span>
+                    <form class="needs-validation" th:action="@{'/item/'+ ${action}}" th:object="${item}" method="post"  enctype="multipart/form-data">
+                        <div class="row g-3">
+                            <div class="col-sm-6">
+                                <label for="title" class="form-label">Title*</label>
+                                <input  type="text" class="form-control"  id="title" placeholder="Title" value="" name="title" th:field="*{title}"
+                                        aria-label="title" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="category-select" class="form-label">Category*</label>
+                                <select class="form-select" name="fk_category" id="category-select" th:field="*{category.name}"
+                                        role="listbox" aria-label="select category" required>
+                                    <option value="">category</option>
+                                    <option th:each="category: ${categories}"
+                                            th:value="${category.name}" th:text="${category.name}"></option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="ad-select" class="form-label">Ad*</label>
+                                <select class="form-select" name="ad" id="ad-select" th:field="*{ad}"
+                                        role="listbox" aria-label="select ad" required>
+                                    <option value="">Ad</option>
+                                    <option th:each="ad: ${ads}"
+                                            th:value="${ad}" th:text="${ad}"></option>
+                                </select>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="description" class="form-label">Description*</label>
+                                <input type="text" class="form-control" id="description" name="description" placeholder="Description"
+                                       th:field="*{description}" aria-label="description" required>
+                                <div class="invalid-feedback">
+                                    Please enter description.
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="file" class="form-label">Picture*</label>
+                                <input class="form-control" id="file" type="file" name="file" accept="image/jpeg"
+                                       aria-label="picture">
+                            </div>
+
+                            <button role="button" class="w-100 btn btn-primary btn-lg" type="submit" th:if="${action} == 'new'">Create</button>
+                            <button role="button" class="w-100 btn btn-primary btn-lg" type="submit" th:if="${action} != 'new'">Edit</button>
+                        </div>
+                    </form>
+                </div>
+            </main>
+        </div>
+        <aside></aside>
+        <footer th:replace="fragments/master :: common_footer">
+            <small>Copyleft CC-by 2019 by Giairo Mauro</small>
+        </footer>
+
+        <div th:replace="fragments/scripts"></div>
+    </body>
+</html>
