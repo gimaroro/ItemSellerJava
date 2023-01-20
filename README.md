@@ -8,4 +8,4 @@ When the program start it will automatically create the database.
 But for this to happen correctly you need to change database URL to the one where you want to create the tables in. This needs to be done in the following file.
 * src/main/application.properties
 
-- I am already planning to publish this website so that it can be tried live directly
+I am already planning to publish this website so that it can be tried live directly
